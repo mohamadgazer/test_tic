@@ -6,7 +6,7 @@ part 'clinet_model.g.dart';
 @HiveType(typeId: 0)
 class ClinetModel {
   @HiveField(0)
-  final String id;
+  final int id;
   @HiveField(1)
   final String name;
   @HiveField(2)
