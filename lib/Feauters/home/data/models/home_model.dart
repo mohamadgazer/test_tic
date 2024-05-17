@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class HomeModel {
-  final Icon icon;
+  final IconData icon;
   final String title;
-  final String body;
-  const HomeModel({
+  String? body;
+  final String? route;
+
+  HomeModel({
     required this.icon,
     required this.title,
-    required this.body,
+    this.body,
+    required this.route,
   });
 }

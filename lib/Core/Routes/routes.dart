@@ -25,4 +25,6 @@ class Routes {
   static const String ayaItem = "/ayaItem";
   // client
   static const String addClient = "/AddClient";
+  static const String addReservation = "/AddReservation";
+  static const String viewClient = "/ViewClient";
 }

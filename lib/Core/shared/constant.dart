@@ -31,7 +31,9 @@ class Const {
   static const String reservationDate = "تاريخ الحجز";
   static const String noData = "غير موجود بقاعده البيانات";
   static const String search = "ابحث";
-  static const String searchClient = " 'ابحث عن العميل'";
+  static const String searchClient = "ابحث عن العميل";
+  static const String clientList = "قائمة العملاء";
+  static const String addCliensuccess = "تم إضافة العميل بنجاح";
 }
 
 class AppColors {

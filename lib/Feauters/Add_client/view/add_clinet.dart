@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:test_tic/Core/Routes/routes.dart';
 import 'package:test_tic/Core/shared/body_tempalte.dart';
 import 'package:test_tic/Core/shared/constant.dart';
 import 'package:test_tic/Core/shared/functions/custom_back_dilog.dart';
 import 'package:test_tic/Core/shared/model/clinet_model.dart';
+import 'package:test_tic/Feauters/Add_reservation/manger/client_cubit/cubit/client_cubit.dart';
 
 class AddClient extends StatelessWidget {
   const AddClient({super.key});
@@ -23,7 +26,8 @@ class AddClient extends StatelessWidget {
           onPressed: () {
             customBackDialog(context).then((value) {
               if (value == true) {
-                Navigator.of(context).pop(); // العودة للصفحة السابقة
+                Navigator.pushNamedAndRemoveUntil(context, Routes.viewClient,
+                    (route) => false); // العودة للصفحة السابقة
               }
             });
           },
@@ -82,25 +86,39 @@ class AddClient extends StatelessWidget {
                 SizedBox(
                   height: Const.h30,
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      var box = Hive.box<ClinetModel>(Const.clinet);
-                      var id = box.values.length;
-                      var client = ClinetModel(
-                        id: id,
-                        name: nameController.text,
-                        number: numberController.text,
-                        address: addressController.text,
-                        createdAt: DateTime.now(),
+                BlocListener<ClientCubit, ClientState>(
+                  listener: (context, state) {
+                    if (state is ClientAdd) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(Const.addCliensuccess),
+                        ),
                       );
-
-                      box.add(client);
-                      print(client.name);
-                      Navigator.pop(context, client);
                     }
                   },
-                  child: const Text(Const.save),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        var box = Hive.box<ClinetModel>(Const.clinet);
+                        var id = box.values.length;
+                        var client = ClinetModel(
+                          id: id,
+                          name: nameController.text,
+                          number: numberController.text,
+                          address: addressController.text,
+                          createdAt: DateTime.now(),
+                        );
+
+                        await box.add(client);
+                        print(client.name);
+                        // Navigator.pop(context,
+                        //     BlocProvider.of<ClientCubit>(context).getClient));
+                        BlocProvider.of<ClientCubit>(context).getClient();
+                        Navigator.pushNamed(context, Routes.viewClient);
+                      }
+                    },
+                    child: const Text(Const.save),
+                  ),
                 ),
               ],
             ),

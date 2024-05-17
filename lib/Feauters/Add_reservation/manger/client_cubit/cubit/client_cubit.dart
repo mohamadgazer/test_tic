@@ -13,13 +13,21 @@ class ClientCubit extends Cubit<ClientState> {
   TextEditingController constCountController = TextEditingController();
   TextEditingController reservationDateController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  TextEditingController searchController = TextEditingController();
 // client number
   String clientnumber = "";
   var client = [];
-  var box = Hive.box<ClinetModel>(Const.clinet).values.toList();
+  List<ClinetModel> box = Hive.box<ClinetModel>(Const.clinet).values.toList();
+
+  void getClient() {
+    emit(ClientInitial());
+    emit(ClientAdd(box));
+  }
+
 // functions
-  void addClient(String name) {
-    client.add(name);
+  void addClient(ClinetModel name) {
+    box.add(name);
     emit(ClientInitial());
   }
 }

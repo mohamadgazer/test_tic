@@ -2,9 +2,12 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:test_tic/Core/Routes/app_routers.dart';
+import 'package:test_tic/Core/helper/bloc_observer.dart';
 import 'package:test_tic/Core/shared/constant.dart';
 import 'package:test_tic/Core/shared/model/clinet_model.dart';
 import 'package:test_tic/Core/shared/model/reservation/reservation_model.dart';
@@ -14,6 +17,7 @@ import 'Feauters/home/view/home_View.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyCubitObserver();
   await Hive.initFlutter();
   Hive.registerAdapter(ClinetModelAdapter());
   Hive.registerAdapter(ReservationModelAdapter());
@@ -58,6 +62,7 @@ class MyApp extends StatelessWidget {
           // theme: ThemeData.light(),
           locale: const Locale('ar'),
           // onGenerateRoute: appRouting.generateRoute,
+          routes: routes,
           home: const HomeView(),
         );
       },

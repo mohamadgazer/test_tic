@@ -4,3 +4,8 @@ part of 'client_cubit.dart';
 sealed class ClientState {}
 
 final class ClientInitial extends ClientState {}
+
+final class ClientAdd extends ClientState {
+  final List<ClinetModel> list;
+  ClientAdd(this.list);
+}
